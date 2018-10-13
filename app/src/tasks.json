@@ -1,0 +1,47 @@
+{
+  "daily_tasks": [
+    {
+      "id": 0,
+      "name": "Ma tâche du matin",
+      "days": [
+        {"date": "12/10/2018"},
+        {"date": "13/10/2018"}
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Ma tâche du midi",
+      "days": [
+        {"date": "12/10/2018"},
+        {"date": "14/10/2018"},
+        {"date": "16/10/2018"},
+        {"date": "25/10/2018"}
+      ]
+    }
+  ],
+  "tasks":[
+    {
+      "id": 0,
+      "name": "Ma tâche du soir"
+    },
+    {
+      "id": 1,
+      "name": "Ma dernière tâche de la journée"
+    }
+  ],
+  "days":[
+    {
+      "day": "13/10/2018",
+      "tasks":[
+        {
+          "id": 0,
+          "is_checked": true
+        },
+        {
+          "id": 1,
+          "id_checked": false
+        }
+      ]
+    }
+  ]
+}

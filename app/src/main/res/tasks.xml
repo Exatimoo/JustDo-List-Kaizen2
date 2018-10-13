@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <daily_task>
+        <task>
+            <id>0</id>
+            <name>Ma tâche du matin</name>
+            <days>
+                <day_checked>12/10/2018</day_checked>
+                <day_checked>13/10/2018</day_checked>
+            </days>
+        </task>
+        <task>
+            <id>1</id>
+            <name>Ma tâche du midi</name>
+            <days>
+                <day_checked>12/10/2018</day_checked>
+                <day_checked>14/10/2018</day_checked>
+                <day_checked>16/10/2018</day_checked>
+                <day_checked>25/10/2018</day_checked>
+            </days>
+        </task>
+    </daily_task>
+    <tasks>
+        <task><id>A0</id><name>Ma tâche du soir</name></task>
+        <task><id>A1</id><name>Ma dernière tâche de la journée</name></task>
+    </tasks>
+    <days>
+        <day>
+            <id>20181012</id>
+            <value>12/10/2018</value>
+            <task>
+                <id>A0</id><name>Ma tâche du soir</name><checked>true</checked>
+                <id>A1</id><name>Ma dernière tâche de la journée</name><checked>true</checked>
+            </task>
+        </day>
+    </days>
+</resources>
