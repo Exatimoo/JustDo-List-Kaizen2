@@ -1,9 +1,13 @@
 package fr.kaizen.justdo_list_kaizen;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.util.Xml;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,41 +17,46 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView textView4 = (TextView) findViewById(R.id.textCurrentDate);
-        Date currentTime = Calendar.getInstance().getTime();
+
+        // Add Date to Main Layout
+        TextView viewCurrentDate = (TextView) findViewById(R.id.textCurrentDate);
+        Date dateCurrentDate = Calendar.getInstance().getTime();
         DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
-        textView4.setText(dateFormat.format(currentTime));
+        String stringCurrentDate = dateFormat.format(dateCurrentDate);
+        viewCurrentDate.setText(stringCurrentDate);
+
+        displayTasksForDay(R.id.layout_tasks, stringCurrentDate);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
         // Ajoute le bouton rose avec le logo de mail
+        // TODO: modifier logo mail par logo "+";
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //TODO: ajouter une fonction permmetant de créer une tache à ce jour (idée : checkbox demandant l'ajout à la liste de tâches quotidiennes);
             }
         });
 
@@ -67,25 +76,11 @@ public class MainActivity extends AppCompatActivity
     public void onCheckboxClicked(View view) {
         // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
-
-        // Check which checkbox was clicked
-        switch(view.getId()) {
-            case R.id.checkbox_meat:
-                if (checked) {
-                    // Put some meat on the sandwich
-                }
-                else {
-                    // Remove the meat
-                    break;
-                }
-            case R.id.checkbox_cheese:
-                if (checked) {
-                    // Cheese me
-                } else {
-                    // I'm lactose intolerant
-                    break;
-                }
-            // TODO: Veggie sandwich
+        if (checked) {
+            // Put some meat on the sandwich
+        }
+        else {
+            // Remove the meat
         }
     }
 
@@ -146,5 +141,49 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    // Ajoute les tâches d'une journée
+    // param layoutId : identifiant du layout au format R.id.etc
+    // param day : string de la journée au format 13/10/2018)
+    public void displayTasksForDay(@IdRes int layoutId, String day) {
+        final String jsonString = IOHelper.stringFromAsset(this, "tasks.json");
+        try {
+            JSONObject object = new JSONObject(jsonString);
+            JSONArray tasks = object.getJSONArray("daily_tasks");
+            LinearLayout layoutTasks = (LinearLayout) findViewById(layoutId);
 
+            for (int i = 0; i < tasks.length(); i++) {
+                JSONObject task = tasks.getJSONObject(i);
+                String taskName = task.getString("name");
+                Integer taskId = task.getInt("id");
+                JSONArray days = task.getJSONArray("days");
+
+                // Boucle effectivement sur tous les jours de la tâche
+                for (int j = 0; j < days.length(); j++) {
+                    JSONObject jsonDay = days.getJSONObject(j);
+                    String jsonDate = jsonDay.getString("date").replace("\\/","/");
+                    Boolean isChecked = jsonDay.getBoolean("is_checked");
+
+                    // Mais ne rajoute la CheckBox uniquement si la date est présente
+                    if (jsonDate.equals(day)) {
+                        final CheckBox checkboxTask = new CheckBox(this);
+                        ViewGroup.LayoutParams params = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        checkboxTask.setLayoutParams(params);
+                        checkboxTask.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Log.d("ReadReplaceFeedTask", String.format("checkbox onClick, isSelected: %s, identityHashCode: %s", checkboxTask.isSelected(), System.identityHashCode(checkboxTask)));
+                            }
+                        });
+                        checkboxTask.setTextSize(26);
+                        checkboxTask.setId(taskId);
+                        checkboxTask.setText(taskName);
+                        checkboxTask.setChecked(isChecked);
+                        layoutTasks.addView(checkboxTask);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.d("ReadReplaceFeedTask", e.getLocalizedMessage());
+        }
+    }
 }

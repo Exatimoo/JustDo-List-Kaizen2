@@ -4,18 +4,18 @@
       "id": 0,
       "name": "Ma tâche du matin",
       "days": [
-        {"date": "12/10/2018"},
-        {"date": "13/10/2018"}
+        {"date": "12/10/2018", "is_checked": true},
+        {"date": "14/10/2018", "is_checked": false}
       ]
     },
     {
       "id": 1,
       "name": "Ma tâche du midi",
       "days": [
-        {"date": "12/10/2018"},
-        {"date": "14/10/2018"},
-        {"date": "16/10/2018"},
-        {"date": "25/10/2018"}
+        {"date": "12/10/2018", "is_checked": false},
+        {"date": "14/10/2018", "is_checked": true},
+        {"date": "16/10/2018", "is_checked": false},
+        {"date": "25/10/2018", "is_checked": false}
       ]
     }
   ],
