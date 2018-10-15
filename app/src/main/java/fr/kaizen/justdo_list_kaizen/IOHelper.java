@@ -2,6 +2,7 @@ package fr.kaizen.justdo_list_kaizen;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.view.View;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -72,6 +73,25 @@ class IOHelper {
             String fromAsset = stringFromAsset();
             writeToFile(fromAsset);
             return fromAsset;
+        }
+    }
+
+/*
+    public void serializeClassGSON(View view) {
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(tasks);
+        IOHelper.writeToFile(this, "tasks2.json", jsonString)
+
+    }
+*/
+
+    public static void writeToFile(Context context, String fileName, String str)  {
+        try {
+            FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            fos.write(str.getBytes(), 0, str.length());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

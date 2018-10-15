@@ -25,6 +25,7 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -162,6 +163,8 @@ public class MainActivity extends AppCompatActivity
                     JSONObject jsonDay = days.getJSONObject(j);
                     String jsonDate = jsonDay.getString("date").replace("\\/","/");
                     Boolean isChecked = jsonDay.getBoolean("is_checked");
+                    jsonDay.put("is_checked", true);
+                    // IOHelper.writeToFile(this, "tasks.json", );
 
                     // Mais ne rajoute la CheckBox uniquement si la date est présente
                     if (jsonDate.equals(day)) {
@@ -171,7 +174,12 @@ public class MainActivity extends AppCompatActivity
                         checkboxTask.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Log.d("ReadReplaceFeedTask", String.format("checkbox onClick, isSelected: %s, identityHashCode: %s", checkboxTask.isSelected(), System.identityHashCode(checkboxTask)));
+                                CheckBox cb = (CheckBox)v;
+                                Integer cbId = cb.getId();
+                                if (cb.isChecked())
+                                {
+                                    Integer test = 0;
+                                }
                             }
                         });
                         checkboxTask.setTextSize(26);
@@ -181,6 +189,7 @@ public class MainActivity extends AppCompatActivity
                         layoutTasks.addView(checkboxTask);
                     }
                 }
+                // String cookie = Cookie.toString(object);
             }
         } catch (Exception e) {
             Log.d("ReadReplaceFeedTask", e.getLocalizedMessage());
