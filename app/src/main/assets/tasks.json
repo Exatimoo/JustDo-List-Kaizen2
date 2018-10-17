@@ -5,7 +5,7 @@
       "name": "Ma tâche du matin",
       "days": [
         {"date": "12/10/2018", "is_checked": true},
-        {"date": "14/10/2018", "is_checked": false}
+        {"date": "17/10/2018", "is_checked": false}
       ]
     },
     {
@@ -14,7 +14,7 @@
       "days": [
         {"date": "12/10/2018", "is_checked": false},
         {"date": "14/10/2018", "is_checked": true},
-        {"date": "16/10/2018", "is_checked": false},
+        {"date": "17/10/2018", "is_checked": true},
         {"date": "25/10/2018", "is_checked": false}
       ]
     }

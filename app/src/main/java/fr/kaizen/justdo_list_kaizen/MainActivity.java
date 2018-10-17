@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity
     // param layoutId : identifiant du layout au format R.id.etc
     // param day : string de la journée au format 13/10/2018)
     public void displayTasksForDay(@IdRes int layoutId, String day) {
+        if (day.length() == 8) {day = day.substring(3, 5)+"/"+day.substring(0, 2)+"/20"+day.substring(6,8);}
         final String jsonString = IOHelper.stringFromAsset(this, "tasks.json");
         try {
             JSONObject object = new JSONObject(jsonString);
@@ -191,6 +192,9 @@ public class MainActivity extends AppCompatActivity
                 }
                 // String cookie = Cookie.toString(object);
             }
+
+            String test = object.toString();
+            IOHelper.writeToFile(this, "tasks.json", test);
         } catch (Exception e) {
             Log.d("ReadReplaceFeedTask", e.getLocalizedMessage());
         }

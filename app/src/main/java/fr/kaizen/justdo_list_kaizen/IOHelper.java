@@ -40,20 +40,10 @@ class IOHelper {
         return null;
     }
 
-    void writeToFile(String str) {
-        try {
-            FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
-            fos.write(str.getBytes(), 0, str.length());
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static String stringFromAsset() {
         AssetManager am = context.getAssets();
         try {
-            InputStream is = am.open(filename);
+            InputStream is = am.open("tasks.json");
             String result = stringFromStream(is);
             is.close();
             return result;
@@ -62,9 +52,10 @@ class IOHelper {
         }
         return null;
     }
+/*
     String stringFromFile(){
         try {
-            FileInputStream fis = context.openFileInput(filename);
+            FileInputStream fis = context.openFileInput("tasks.json");
             String str = stringFromStream(fis);
             fis.close();
             return str;
@@ -75,7 +66,7 @@ class IOHelper {
             return fromAsset;
         }
     }
-
+*/
 /*
     public void serializeClassGSON(View view) {
         Gson gson = new Gson();
@@ -86,8 +77,10 @@ class IOHelper {
 */
 
     public static void writeToFile(Context context, String fileName, String str)  {
+        FileOutputStream fos;
         try {
-            FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            fos = context.getApplicationContext().openFileOutput(fileName, context.MODE_PRIVATE);
+
             fos.write(str.getBytes(), 0, str.length());
             fos.close();
         } catch (IOException e) {
